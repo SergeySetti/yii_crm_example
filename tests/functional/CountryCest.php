@@ -1,5 +1,9 @@
 <?php
 
+namespace tests;
+
+use FunctionalTester;
+
 class CountryCest
 {
     public function countriesCodes(FunctionalTester $I)

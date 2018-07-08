@@ -131,4 +131,12 @@ class UserModel extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
     {
         $this->password = Yii::$app->security->generatePasswordHash($password);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClients()
+    {
+        return $this->hasMany(ClientModel::class, ['user_id' => 'id']);
+    }
 }
