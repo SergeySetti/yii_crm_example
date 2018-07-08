@@ -2,13 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\ContactForm;
+use app\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -117,12 +117,25 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays about page.
+     * Displays sign-up form page or process it's input.
      *
-     * @return string
      */
-    public function actionAbout()
+    public function actionSignup()
     {
-        return $this->render('about');
+        $signupForm = new \app\models\SignupForm();
+
+        if ($signupForm->load(Yii::$app->request->post())) {
+            if ($signupForm->validate()) {
+                if ($signupForm->signup()) {
+                    Yii::$app->session->addFlash('success', "Successfully registered!");
+                    return $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('signup', [
+            'model' => $signupForm,
+        ]);
     }
+
 }
