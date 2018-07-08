@@ -23,6 +23,12 @@ use League\ISO3166\ISO3166;
             ArrayHelper::map((new ISO3166())->all(), 'alpha2', 'name')
         ) ?>
 
+    <?= /** @var array $payment_methods */
+    $form->field($model, 'payment_method_id')
+        ->dropDownList(
+            ArrayHelper::map($payment_methods, 'id', 'name')
+        ) ?>
+
     <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

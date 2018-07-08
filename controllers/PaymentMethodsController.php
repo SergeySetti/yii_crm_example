@@ -2,19 +2,18 @@
 
 namespace app\controllers;
 
-use app\models\PaymentMethodSearchModel;
 use Yii;
-use app\models\ClientModel;
-use app\models\ClientSearchModel;
+use app\models\PaymentMethodModel;
+use app\models\PaymentMethodSearchModel;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ClientsController implements the CRUD actions for ClientModel model.
+ * PaymentMethodController implements the CRUD actions for PaymentMethodModel model.
  */
-class ClientsController extends Controller
+class PaymentMethodsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -41,12 +40,12 @@ class ClientsController extends Controller
     }
 
     /**
-     * Lists all ClientModel models.
+     * Lists all PaymentMethodModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ClientSearchModel();
+        $searchModel = new PaymentMethodSearchModel();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,7 +55,7 @@ class ClientsController extends Controller
     }
 
     /**
-     * Displays a single ClientModel model.
+     * Displays a single PaymentMethodModel model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -69,16 +68,13 @@ class ClientsController extends Controller
     }
 
     /**
-     * Creates a new ClientModel model.
+     * Creates a new PaymentMethodModel model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ClientModel();
-
-        $searchModel = new PaymentMethodSearchModel();
-        $paymentMethods = $searchModel->search(Yii::$app->request->queryParams)->query->all();
+        $model = new PaymentMethodModel();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -86,12 +82,11 @@ class ClientsController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'payment_methods' => $paymentMethods,
         ]);
     }
 
     /**
-     * Updates an existing ClientModel model.
+     * Updates an existing PaymentMethodModel model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -101,21 +96,17 @@ class ClientsController extends Controller
     {
         $model = $this->findModel($id);
 
-        $searchModel = new PaymentMethodSearchModel();
-        $paymentMethods = $searchModel->search(Yii::$app->request->queryParams)->query->all();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'payment_methods' => $paymentMethods,
         ]);
     }
 
     /**
-     * Deletes an existing ClientModel model.
+     * Deletes an existing PaymentMethodModel model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -129,15 +120,15 @@ class ClientsController extends Controller
     }
 
     /**
-     * Finds the ClientModel model based on its primary key value.
+     * Finds the PaymentMethodModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ClientModel the loaded model
+     * @return PaymentMethodModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ClientModel::findOne($id)) !== null) {
+        if (($model = PaymentMethodModel::findOne($id)) !== null) {
             return $model;
         }
 

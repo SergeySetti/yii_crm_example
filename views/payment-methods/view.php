@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ClientModel */
+/* @var $model app\models\PaymentMethodModel */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Payment Method', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="client-model-view">
+<div class="payment-method-model-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -25,21 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?= /** @var \app\models\ClientModel $model */
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'name',
-            'status',
-            [                      // the owner name of the model
-                'label' => 'Country',
-                'value' => (new \app\models\Countries())->codeToCountry($model->country),
-            ],
-            [                      // the owner name of the model
-                'label' => 'Payment Method',
-                'value' => $model->paymentMethod ? $model->paymentMethod->name : '',
-            ],
-            'note:ntext',
+            'type',
+            'description:ntext',
         ],
     ]) ?>
 

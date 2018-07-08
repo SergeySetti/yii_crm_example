@@ -13,7 +13,8 @@ use Yii;
  * @property string $status
  * @property string $country
  * @property string $note
- *
+ * @property integer $payment_method_id
+ * @property PaymentMethodModel $paymentMethod
  * @property UserModel $user
  */
 class ClientModel extends \yii\db\ActiveRecord
@@ -49,7 +50,8 @@ class ClientModel extends \yii\db\ActiveRecord
             [['status', 'note'], 'string'],
             ['status', 'required'],
             [['name', 'country'], 'string', 'max' => 255],
-            ['name', 'unique', 'targetClass' => ClientModel::class, 'filter' => ['=', 'user_id', $loggedInUserId], 'message' => 'This client\'s has already been taken.'],
+            ['name', 'unique', 'targetClass' => ClientModel::class, 'filter' => ['=', 'user_id', $loggedInUserId], 'message' => 'This client\'s name has already been taken.'],
+            ['payment_method_id', 'exist', 'skipOnEmpty' => true, 'targetClass' => PaymentMethodModel::class, 'targetAttribute' => ['payment_method_id' => 'id']],
         ];
     }
 
@@ -65,6 +67,7 @@ class ClientModel extends \yii\db\ActiveRecord
             'status' => 'Status',
             'country' => 'Country',
             'note' => 'Note',
+            'payment_method_id' => 'Payment method',
         ];
     }
 
@@ -74,6 +77,14 @@ class ClientModel extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(UserModel::class, ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPaymentMethod()
+    {
+        return $this->hasOne(PaymentMethodModel::class, ['id' => 'payment_method_id']);
     }
 
     /**

@@ -21,14 +21,12 @@ class m180708_100458_create_clients_table extends Migration
             'note' => $this->text(),
         ]);
 
-        // creates index for column `user_id`
         $this->createIndex(
             'idx-client-user',
             'clients',
             'user_id'
         );
 
-        // add foreign key for table `user`
         $this->addForeignKey(
             'fk-client-user_id',
             'clients',
